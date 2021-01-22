@@ -1,7 +1,7 @@
-import { config } from 'dotenv';
-config();
-
+export const ENV = process.env.NODE_ENV || 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
+
+export const SERVER_ID = IS_PROD ? '434487340535382016' : process.env.SERVER_ID;
 
 export const DUMMY_TOKEN = process.env.DUMMY_TOKEN;
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
@@ -26,3 +26,19 @@ export const API_CACHE_EXPIRATION_IN_SECONDS =
   process.env.API_CACHE_EXPIRATION_IN_SECONDS;
 export const API_CACHE_REVALIDATION_WINDOW_IN_SECONDS =
   process.env.API_CACHE_REVALIDATION_WINDOW_IN_SECONDS;
+
+export const MONGO_URI = process.env.MONGO_URI;
+export const HELPFUL_ROLE_ID = process.env.HELPFUL_ROLE_ID;
+export const HELPFUL_ROLE_EXEMPT_ID = process.env.HELPFUL_ROLE_EXEMPT_ID;
+export const HELPFUL_ROLE_POINT_THRESHOLD =
+  process.env.HELPFUL_ROLE_POINT_THRESHOLD;
+export const POINT_DECAY_TIMER = process.env.POINT_DECAY_TIMER;
+export const ADMIN_ROLE_ID = process.env.ADMIN_ROLE_ID;
+export const MOD_ROLE_ID = process.env.MOD_ROLE_ID;
+
+export const POINT_LIMITER_IN_MINUTES = process.env.POINT_LIMITER_IN_MINUTES;
+export const VAR_DETECT_LIMIT =
+  Number.parseInt(process.env.VAR_DETECT_LIMIT) || 1_800_000;
+
+export const JUST_ASK_DETECT_LIMIT =
+  Number.parseInt(process.env.JUST_ASK_DETECT_LIMIT) || 86_400_000;

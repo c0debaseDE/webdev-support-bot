@@ -1,11 +1,11 @@
-import { Message } from 'discord.js';
-import * as bcd from 'mdn-browser-compat-data';
+import * as bcd from '@mdn/browser-compat-data';
 import {
   CompatStatement,
   SupportStatement,
-} from 'mdn-browser-compat-data/types';
+} from '@mdn/browser-compat-data/types';
+import { Message } from 'discord.js';
 
-import delayedMessageAutoDeletion from '../../utils/delayedMessageAutoDeletion';
+import { delayedMessageAutoDeletion } from '../../utils/delayedMessageAutoDeletion';
 import {
   createMarkdownLink,
   createListEmbed,
@@ -162,6 +162,7 @@ export const buildCanIUseQueryHandler = (
       })
     );
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     await msg.reply(errors.unknownError);
   }

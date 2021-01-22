@@ -1,4 +1,4 @@
-import * as NodeCache from 'node-cache';
+import * as Sentry from '@sentry/node';
 import fetch, {
   HeaderInit,
   RequestInfo,
@@ -11,8 +11,9 @@ import {
   API_CACHE_EXPIRATION_IN_SECONDS,
   API_CACHE_REVALIDATION_WINDOW_IN_SECONDS,
 } from '../env';
+import { Cache } from './Cache';
 
-const apiCache = new NodeCache({
+const apiCache = new Cache({
   checkperiod: Number.parseInt(API_CACHE_REVALIDATION_WINDOW_IN_SECONDS, 10),
   maxKeys: Number.parseInt(API_CACHE_ENTRIES_LIMIT, 10),
   stdTTL: Number.parseInt(API_CACHE_EXPIRATION_IN_SECONDS, 10),
@@ -58,14 +59,24 @@ const doFetch: <TParsedResponse>(
 ) => FetchWithFormat<TParsedResponse> = <TParsedResponse>(cacheKey, mapper) => {
   const casedCacheKey = cacheKey.toLowerCase();
   const cachedResponse = apiCache.get<TParsedResponse>(casedCacheKey);
+
   if (cachedResponse) {
     return () => cachedResponse;
   }
 
   return async (url, fetchOptions) => {
+    Sentry.addBreadcrumb({
+      category: 'query',
+      data: typeof url === 'string' ? { url } : undefined,
+      level: Sentry.Severity.Info,
+      timestamp: Date.now(),
+    });
+
     const timeLabel = `Time took for url=${encodeURIComponent(url.toString())}`;
+    // eslint-disable-next-line no-console
     console.time(timeLabel);
     const response = await fetch(url, fetchOptions);
+    // eslint-disable-next-line no-console
     console.timeEnd(timeLabel);
     const formattedResponse = await mapper(response);
     apiCache.set(casedCacheKey, formattedResponse);
@@ -106,10 +117,12 @@ const responseMapper: <T>(
   }
 };
 
-export default <T>(
+const useData = <T>(
   url: string,
   type: ResponseTypes = 'json',
   headers: HeaderInit = {}
 ): Promise<UnknownData<T>> => {
   return doFetch(url, responseMapper<T>(type))(url, { headers });
 };
+
+export default useData;

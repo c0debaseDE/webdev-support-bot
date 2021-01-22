@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 import { HeadersInit } from 'node-fetch';
 
-import delayedMessageAutoDeletion from './delayedMessageAutoDeletion';
+import { delayedMessageAutoDeletion } from './delayedMessageAutoDeletion';
 import { Provider } from './discordTools';
 import { noResults, invalidResponse } from './errors';
 import useData from './useData';
@@ -94,6 +94,11 @@ export const CODE_KEYWORD = '!code';
 export const VSCODE_KEYWORD = '!vscode';
 export const JOB_POSTING_KEYWORD = '!post';
 export const JQUERY_KEYWORD = '!jquery';
+export const POINTS_KEYWORD = '!points';
+export const LEADERBOARD_KEYWORD = '!leaderboard';
+export const DECAY_KEYWORD = '!decay';
+export const MODULE_KEYWORD = '!modules';
+export const LOCKFILE_KEYWORD = '!lockfile';
 
 /**
  * dynamic regExp matching all possible Object.keys(providers) as keyword

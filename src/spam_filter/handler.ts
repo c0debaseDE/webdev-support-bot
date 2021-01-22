@@ -7,7 +7,7 @@ import { SpammerMetadata } from '.';
 
 type ModChannel = TextChannel & Pick<GuildChannel, 'name'>;
 
-export default async ({
+const spamFilterHandler = async ({
   userID,
   username,
   discriminator,
@@ -21,6 +21,7 @@ export default async ({
   ) as ModChannel;
 
   if (!targetChannel) {
+    // eslint-disable-next-line no-console
     console.warn(`channel ${MOD_CHANNEL} does not exist on this server`);
     return;
   }
@@ -56,6 +57,9 @@ export default async ({
       })
     );
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
   }
 };
+
+export default spamFilterHandler;

@@ -9,6 +9,7 @@ function formatFn(fn: Function) {
 }
 
 function annoyTitan() {
+  // eslint-disable-next-line no-console
   console.log('react > vue');
 }
 
@@ -22,6 +23,9 @@ function getActualName(user: string) {
   return map[user] ?? 'no match found';
 }
 
+/**
+ * @deprecated
+ */
 function typeOfNestor() {
   return 'naab';
 }
