@@ -1,4 +1,5 @@
 FROM node:lts-alpine
-COPY . /
+WORKDIR /app
+COPY . /app
 RUN yarn install
 ENTRYPOINT ["yarn", "dev"]
